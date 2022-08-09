@@ -12,28 +12,28 @@ public:
         return *max_element(dp.begin(), dp.end());
     }
 
-    //time complexity O(n logn), d[i] means the last element of i-length of increaing subsquence  
+    //time complexity O(n logn), d[i] means the minest last element of i-length of increaing subsquence  
     int lengthOfLIS2(vector<int>& nums){
-          int len = 1, n = (int)nums.size();
-        if (n == 0) return 0;
-        vector<int> d(n + 1, 0);
-        d[len] = nums[0];
-        for (int i = 1; i < n; ++i) {
-            if (nums[i] > d[len]) d[++len] = nums[i];
+        int res = 1, n = nums.size();
+        vector<int>v(n + 1, 0);
+        v[res] = nums[0];
+        for(int i = 1; i < n; ++i){
+            if(nums[i] > v[res])v[++res] = nums[i];
             else{
-                int l = 1, r = len, pos = 0; 
-                while (l <= r) {
-                    int mid = (l + r) >> 1;
-                    if (d[mid] < nums[i]) {
+                int l = 1, r = res, pos = 0;
+                while(l <= r){
+                    int mid = l + (r - l)/2;
+                    if(v[mid] < nums[i]){
                         pos = mid;
                         l = mid + 1;
+                    }else{
+                        r = mid - 1;
                     }
-                    else r = mid - 1;
                 }
-                d[pos + 1] = nums[i];
+                v[pos + 1] = nums[i];
             }
         }
-        return len;
+        return res;
     }
 
 };
