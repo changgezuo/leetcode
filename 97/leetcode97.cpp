@@ -1,3 +1,10 @@
+#include<string>
+#include<unordered_set>
+#include<vector>
+
+using namespace std;
+
+
 //memory search
 class Solution {
 public:
