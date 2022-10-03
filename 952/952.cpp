@@ -1,5 +1,7 @@
 #include <vector>
 #include <algorithm>
+#include <cmath>
+#include <unordered_map>
 using namespace std;
 class DSU {
 public:
@@ -23,5 +25,30 @@ class Solution {
 public:
     int largestComponentSize(vector<int>& nums) {
         int n = *max_element(nums.begin(), nums.end());
+        DSU * dsu = new DSU(n + 1);
+        for(int num : nums){
+            int upperLimit = sqrt(num);
+            for(int k = 2; k <= upperLimit; ++k){
+                if (num % k == 0){
+                    dsu->Union(num , k);
+                    dsu->Union(num, num/k);
+                }
+            }
+        }
+        unordered_map<int, int>um;
+        int res = 1;
+        for(int num : nums){
+            res = max(res, ++um[dsu->Find(num)]);
+        }
+        return res;
     }
 };
+
+int main(){
+    
+
+
+
+
+    return 0;
+}
