@@ -13,7 +13,7 @@ public:
             if(midF && nums[i] > mid){
                 return true;
             }
-            if(midF && mid < nums[i] && nums[i] > pre){
+            if(midF && mid > nums[i] && nums[i] > pre){
                 mid = nums[i];
             }
             if(!midF && nums[i] > pre){
