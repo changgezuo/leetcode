@@ -12,14 +12,17 @@ public:
             sort(s.begin(), s.end());
             return s;
         }
-        int minI = -1, minC = 'z'+1;
-        for(int i = s.size() - 1; i >= 0 ; --i) {
-            if (s[i] < minC){
-                minC = s[i];
-                minI = i;
+        char minC = 'z' + 1;
+        for(char c : s){
+            minC = min(c, minC);
+        }
+        string res = s;
+        for(int i = 0; i < s.size(); ++i){
+            if (s[i] == minC){
+                res = min(res, s.substr(i) + s.substr(0, i));
             }
         }
-        return s.substr(minI) + s.substr(0, minI);
+        return res;
     }
 };
 
