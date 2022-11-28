@@ -2,6 +2,7 @@
 #include<unordered_set>
 #include<set>
 #include<unordered_map>
+#include<algorithm>
 using namespace std;
 
 
@@ -27,6 +28,8 @@ public:
                 loseOnceArray.push_back(a.first);
             }
         }
+        sort(noLoseArray.begin(), noLoseArray.end());
+        sort(loseOnceArray.begin(), loseOnceArray.end());
         res.push_back(noLoseArray);
         res.push_back(loseOnceArray);
         return res;
