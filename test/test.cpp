@@ -3,46 +3,73 @@
 #include<queue>
 #include<stack>
 #include<algorithm>
+#include<unordered_map>
 using namespace std;
 
-class Solution {
-    typedef long long ll;
+class Solution2 {
 public:
-    long long totalCost(vector<int>& costs, int k, int candidates) {
-        auto cmp =[](pair<int, int> & a, pair<int, int> &b){
-            return a.second > b.second || (a.second == b.second && a.first < b.first);
-        };
-        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)>pq(cmp);
-        int fI = candidates, n = costs.size();
-        int bI = max(fI - 1, n - candidates - 1);
-        for(int i = 0; i < fI; ++i){
-            pq.push(make_pair(i, costs[i]));
+    int rootCount(vector<vector<int>>& edges, vector<vector<int>>& guesses, int k) {
+        int n = edges.size(), m = guesses.size();
+        vector<vector<int>>v(n + 1, vector<int>());
+        for(auto & edge : edges){
+            v[edge[0]].push_back(edge[1]);
+            v[edge[1]].push_back(edge[0]);
         }
-        for(int i = costs.size() - 1; i > bI; --i){
-            pq.push(make_pair(i, costs[i]));
-        }
-        ll res = 0;
-        for(int i = 0; i < k; ++i){
-            auto cur = pq.top();pq.pop();
-            res += cur.second;
-            int index = cur.first;
-            if (fI > bI){
-                continue;
+        int error = m - k, res = 0;
+        if(error == m)return n;
+        for(int i = 0; i < n; ++i){
+            int cnt = 0;
+            for(auto & guess : guesses){
+                if(!valid(i, guess[0], guess[1], v)){
+                    cnt++;
+                    if (cnt > error)break;
+                }
             }
-            if (index < bI){
-                pq.push(make_pair(fI, costs[fI]));
-                fI++;
-            }else if(index > fI){
-                pq.push(make_pair(bI, costs[bI]));
-                bI--;
-            }
+            res += cnt >error? 0 : 1;
         }
         return res;
+    }
+    
+    bool valid(int root, int tar, int cur, vector<vector<int>>&v){
+        if (cur == tar)return true;
+        if(cur == root || v[cur].size() == 0)return false;
+        for(int num : v[cur]){
+            if(num == tar)return true;
+            if(num == root)return false;
+            if(valid(root, tar, num, v))return true;
+        }
+        return false;
+    }
+};
+class Solution {
+public:
+    vector<vector<int>> findMatrix(vector<int>& nums) {
+        unordered_map<int, int>um;
+        for(int num : nums)um[num]++;
+        vector<vector<int>>res;
+        bool all = false;
+        while(true){
+            for(auto & a : um){
+                vector<int>cur;
+                if(a.second != 0){
+                    all = true;
+                    cur.push_back(a.first);
+                    a.second--;
+                }
+                if(all){
+                    res.push_back(cur);
+                }
+            }
+            if (!all)break;
+            all = false;
+        }
+        return res;
+        
     }
 };
 
 int main(){
-    vector<int>v{31,25,72,79,74,65,84,91,18,59,27,9,81,33,17,58};
+    vector<int>v{1,3,4,1,2,3,1};
     Solution * solution = new Solution();
-    solution->totalCost(v, 11, 2);
+    solution->findMatrix(v);
 }
