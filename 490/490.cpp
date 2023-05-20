@@ -15,7 +15,7 @@ public:
         unordered_set<int>vis;
         while(!q.empty()) {
             int cur = q.front(); q.pop();
-            int curX = cur % n,  curY = cur/n;
+            int curX = cur / n,  curY = cur%n;
             if(curX == des[0] && curY == des[1])return true;
             vis.insert(cur);
             for(int i = 0; i < 4; ++i){
