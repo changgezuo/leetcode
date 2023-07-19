@@ -27,7 +27,7 @@ private:
 };
 
 auto main () ->int{
-	 string str1 = "hello world";
+	string str1 = "hello world";
     string str2 = str1;
     printf ("Sharing the memory:/n");
     printf ("/tstr1's address: %x/n", str1.c_str() );
