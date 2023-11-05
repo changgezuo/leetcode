@@ -20,10 +20,11 @@ public:
 
     }
 };
-
-auto main()->int{
+int  main(){
     string s1 = "horse";
     string s2 = "ros";
     Solution * solution = new Solution();
     solution->minDistance(s1, s2);
+
+    return 0;
 }
